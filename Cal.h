@@ -587,3 +587,45 @@ Vector3 Perpendicular(const Vector3& vector) {
 	}
 	return { 0.0f, -vector.z, vector.y };
 };
+
+bool Incolision(const Triangle& triangle, const Segment& line) {
+
+	Vector3 v01 = Subtract(triangle.vertices[1], triangle.vertices[0]);
+	Vector3 v12 = Subtract(triangle.vertices[2], triangle.vertices[1]);
+	Vector3 v20 = Subtract(triangle.vertices[0], triangle.vertices[2]);
+
+	Plane plane = { Normalize(Cross(v01,v12)),0.0f };
+	plane.distance = plane.normal.x * v20.x +
+		plane.normal.y * v20.y + plane.normal.z * v20.z;
+
+	float dot = Dot(plane.normal, line.diff);
+
+	if (dot == 0.0f) {
+		return false;
+	}
+
+	float t = (plane.distance - Dot(line.origin, plane.normal)) / dot;
+
+	if (t < 0 || t > 1.0f)
+	{
+		return false;
+	}
+
+	Vector3 v1p = Subtract(Add(line.origin,
+		Multiply(t, line.diff)), triangle.vertices[1]);
+	Vector3 v2p = Subtract(Add(line.origin,
+		Multiply(t, line.diff)), triangle.vertices[2]);
+	Vector3 v0p = Subtract(Add(line.origin,
+		Multiply(t, line.diff)), triangle.vertices[0]);
+
+	Vector3 cross01 = Cross(v01, v1p);
+	Vector3 cross12 = Cross(v12, v2p);
+	Vector3 cross20 = Cross(v20, v0p);
+
+	if (Dot(cross01, plane.normal) >= 0.0f &&
+		Dot(cross12, plane.normal) >= 0.0f &&
+		Dot(cross20, plane.normal) >= 0.0f) {
+		return true;
+	}
+	return false;
+};

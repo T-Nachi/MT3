@@ -3,6 +3,11 @@
 #include"Novice.h"
 #include"Matrix4x4.h"
 
+struct Plane {
+	Vector3 normal;
+	float distance;
+};
+
 struct Line {
 	Vector3 origin;	//!< 始点
 	Vector3 diff; //!< 終点への差分ベクトル
@@ -23,7 +28,6 @@ struct Sphere {
 	float radius;
 };
 
-struct Plane {
-	Vector3 normal;
-	float distance;
+struct Triangle {
+	Vector3 vertices[3];
 };
