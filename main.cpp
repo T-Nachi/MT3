@@ -2,7 +2,7 @@
 #include"Obj.h"
 #include"Cal.h"
 #include"Draw.h"
-const char kWindowTitle[] = "";
+const char kWindowTitle[] = "LD2A_08_ツクイ";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
